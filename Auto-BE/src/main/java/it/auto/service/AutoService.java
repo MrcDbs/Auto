@@ -90,4 +90,39 @@ public class AutoService {
 		dto.setDettagli(dedto);
 		return dto;
 	} 
+	
+	public AutomobileDto deleteById(Long id) {
+		AutomobileDto dto = new AutomobileDto();
+		Automobile a = this.autoRepo.findById(id).get();
+		this.autoRepo.deleteById(id);
+		dto.setMarca(a.getMarca());
+		dto.setModello(a.getModello());
+		return dto;
+	}
+	
+	public AutomobileDto updateAuto(AutomobileDto auto,Long id) {
+		
+		Automobile autoEntity = this.autoRepo.findById(id).get();
+		if(autoEntity == null) {
+			return null;
+		}
+		Dettaglio dettaglioEntity = autoEntity.getDettaglio();
+		if(dettaglioEntity != null && auto.getDettagli() != null) {
+			dettaglioEntity.setColore(auto.getDettagli().getColore());
+			dettaglioEntity.setCavalli(auto.getDettagli().getCavalli());
+			dettaglioEntity.setCilindrata(auto.getDettagli().getCilindrata());
+			dettaglioEntity.setInterni(auto.getDettagli().getInterni());
+			dettaglioEntity.setKm(auto.getDettagli().getKm());
+			dettaglioEntity.setTipoMotore(auto.getDettagli().getTipoMotore());
+			//Dettaglio dettaglio = this.dettaglioRepo.save(dettaglioEntity);
+			autoEntity.setDettaglio(dettaglioEntity);
+		}
+		//autoEntity.setMarca(auto.getMarca());
+		autoEntity.setModello(auto.getModello());
+		autoEntity.setAnno(auto.getAnno());
+		autoEntity.setTarga(auto.getTarga());
+		this.autoRepo.save(autoEntity);
+		
+		return auto;
+	}
 }

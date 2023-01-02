@@ -7,5 +7,5 @@ import it.auto.model.Automobile;
 
 @Repository
 public interface AutomobileRepo extends JpaRepository<Automobile,Long>{
-
+//	Automobile delete(Long id);
 }
